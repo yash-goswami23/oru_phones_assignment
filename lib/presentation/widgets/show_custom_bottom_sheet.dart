@@ -43,6 +43,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oru_phones_assignment/core/config/app_color.dart';
 import 'package:oru_phones_assignment/core/config/assets_path.dart';
+import 'package:oru_phones_assignment/core/config/routes.dart';
 import 'package:oru_phones_assignment/presentation/widgets/custom_button.dart';
 import 'package:oru_phones_assignment/presentation/widgets/custom_text_field.dart';
 import 'package:oru_phones_assignment/presentation/widgets/terms_checkbox_widget.dart';
@@ -53,6 +54,8 @@ Future<dynamic> showCustomBottomSheet({
   required String inputTitle,
   required String title,
   required String btnText,
+  required VoidCallback onTap,
+  TextInputType? keyboardType,
   String? icon,
   String? star,
   String? inputHint,
@@ -81,16 +84,34 @@ Future<dynamic> showCustomBottomSheet({
                     border: Border(bottom: BorderSide(color: borderColor))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: textBlackColor,
-                      ),
+                    Row(
+                      children: [
+                        if (showOtp)
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: SvgPicture.asset(back),
+                            ),
+                          ),
+                        Text(
+                          title,
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: textBlackColor,
+                          ),
+                        ),
+                      ],
                     ),
-                    SvgPicture.asset(cross)
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: SvgPicture.asset(cross))
                   ],
                 ),
               ),
@@ -229,6 +250,7 @@ Future<dynamic> showCustomBottomSheet({
                               customTextField(
                                   hintText: inputHint,
                                   prefex: inputPrefex,
+                                  keyboardType: keyboardType,
                                   controller: controller)
                             ],
                           ),
@@ -249,7 +271,8 @@ Future<dynamic> showCustomBottomSheet({
                       ),
                     customBtn(
                       context: context,
-                      onTap: () {},
+                      onTap: onTap,
+                      btnColor: mainColor,
                       text: btnText,
                       icons: icon,
                     ),

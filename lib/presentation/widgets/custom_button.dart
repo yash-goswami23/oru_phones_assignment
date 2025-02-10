@@ -7,7 +7,12 @@ Widget customBtn(
     {required context,
     required VoidCallback onTap,
     required String text,
-    String? icons}) {
+    String? icons,
+    double borderRadius = 4,
+    Color? textColor,
+    Color? btnShadowColor,
+    required Color btnColor}) {
+  textColor ??= whiteColor;
   final width = MediaQuery.sizeOf(context).width;
   return InkWell(
     onTap: onTap,
@@ -15,8 +20,18 @@ Widget customBtn(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: mainColor,
-        borderRadius: BorderRadius.circular(4),
+        color: btnColor,
+        boxShadow: btnShadowColor != null
+            ? [
+                BoxShadow(
+                  color: btnShadowColor.withOpacity(0.4),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 2), // changes position of shadow
+                ),
+              ]
+            : null,
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +41,7 @@ Widget customBtn(
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
               fontSize: 18,
-              color: whiteColor,
+              color: textColor,
             ),
           ),
           SizedBox(

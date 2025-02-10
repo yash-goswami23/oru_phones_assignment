@@ -127,6 +127,7 @@ class _MobileOtpScreenState extends State<MobileOtpScreen> {
             customBtn(
               context: context,
               onTap: () {},
+              btnColor: mainColor,
               text: 'Verify OTP',
               // icons: arrow,
             ),

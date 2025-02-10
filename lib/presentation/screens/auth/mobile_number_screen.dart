@@ -104,17 +104,8 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
             // SizedBox(height: 100),
             customBtn(
               context: context,
-              onTap: () {
-                showCustomBottomSheet(
-                    context: context,
-                    height: height,
-                    inputTitle: 'Please Tell Us Your Name',
-                    inputHint: 'Name',
-                    title: 'Sig Up to continue',
-                    icon: arrow,
-                    star: '*',
-                    btnText: 'Confirm Name');
-              },
+              btnColor: mainColor,
+              onTap: () {},
               text: 'Next',
               icons: arrow,
             ),

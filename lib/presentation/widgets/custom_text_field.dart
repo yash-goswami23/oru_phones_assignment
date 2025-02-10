@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oru_phones_assignment/core/config/app_color.dart';
 
-TextField customTextField({
-  String? hintText,
-  String? prefex,
-  TextEditingController? controller,
-}) {
+TextField customTextField(
+    {String? hintText,
+    String? prefex,
+    TextEditingController? controller,
+    TextInputType? keyboardType}) {
   return TextField(
     controller: controller,
+    keyboardType: keyboardType,
     decoration: InputDecoration(
       hintText: hintText,
       prefixIcon: prefex != null

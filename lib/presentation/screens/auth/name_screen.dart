@@ -93,6 +93,7 @@ class _NameScreenState extends State<NameScreen> {
             customBtn(
               context: context,
               onTap: () {},
+              btnColor: mainColor,
               text: 'Confirm Name',
               icons: arrow,
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oru_phones_assignment/core/config/routes.dart';
-import 'package:oru_phones_assignment/presentation/screens/splash_screen.dart';
+import 'package:oru_phones_assignment/presentation/screens/auth/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
