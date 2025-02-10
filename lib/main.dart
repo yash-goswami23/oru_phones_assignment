@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oru_phones_assignment/core/config/routes.dart';
+import 'package:oru_phones_assignment/presentation/screens/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,11 +12,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      initialRoute: splashScreen,
+      onGenerateRoute: Routes.onGenerateRoute,
     );
   }
 }
