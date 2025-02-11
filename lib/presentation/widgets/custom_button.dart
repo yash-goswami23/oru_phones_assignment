@@ -7,6 +7,7 @@ Widget customBtn(
     {required context,
     required VoidCallback onTap,
     required String text,
+    bool isLoading = false,
     String? icons,
     double borderRadius = 4,
     Color? textColor,
@@ -33,26 +34,34 @@ Widget customBtn(
             : null,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w600,
-              fontSize: 18,
-              color: textColor,
+      child: isLoading
+          ? SizedBox(
+              height: 25,
+              width: 25,
+              child: CircularProgressIndicator(
+                color: whiteColor,
+                strokeWidth: 2,
+              ))
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: textColor,
+                  ),
+                ),
+                SizedBox(
+                  width: width / 60,
+                ),
+                if (icons != null)
+                  SvgPicture.asset(
+                    icons,
+                  )
+              ],
             ),
-          ),
-          SizedBox(
-            width: width / 60,
-          ),
-          if (icons != null)
-            SvgPicture.asset(
-              icons,
-            )
-        ],
-      ),
     ),
   );
 }

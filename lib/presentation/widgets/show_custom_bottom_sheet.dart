@@ -55,12 +55,14 @@ Future<dynamic> showCustomBottomSheet({
   required String title,
   required String btnText,
   required VoidCallback onTap,
+  bool isLoading = false,
   TextInputType? keyboardType,
   String? icon,
   String? star,
   String? inputHint,
   String? inputPrefex,
   ValueChanged<bool>? showTrems,
+  ValueChanged<String>? otpSubmit,
   bool? tremsValue,
   bool showOtp = false,
   String? number,
@@ -187,9 +189,7 @@ Future<dynamic> showCustomBottomSheet({
                                   //handle validation or checks here
                                 },
                                 //runs when every textfield is filled
-                                onSubmit: (String verificationCode) {
-                                  userOtpCode = verificationCode;
-                                }, // end onSubmit
+                                onSubmit: otpSubmit, // end onSubmit
                               ),
                               SizedBox(height: height / 40),
                               Text(
@@ -273,6 +273,7 @@ Future<dynamic> showCustomBottomSheet({
                       context: context,
                       onTap: onTap,
                       btnColor: mainColor,
+                      isLoading: isLoading,
                       text: btnText,
                       icons: icon,
                     ),

@@ -1,20 +1,20 @@
 import 'package:oru_phones_assignment/data/models/user_model.dart';
 
-class UserValidate {
+class OtpValidate {
   final String reason;
   final String status;
   final DataObject dataObject;
   final User user;
 
-  UserValidate({
+  OtpValidate({
     required this.reason,
     required this.status,
     required this.dataObject,
     required this.user,
   });
 
-  factory UserValidate.fromJson(Map<String, dynamic> json) {
-    return UserValidate(
+  factory OtpValidate.fromJson(Map<String, dynamic> json) {
+    return OtpValidate(
       reason: json['reason'],
       status: json['status'],
       dataObject: DataObject.fromJson(json['dataObject']),

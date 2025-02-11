@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:oru_phones_assignment/core/config/app_color.dart';
 import 'package:oru_phones_assignment/core/config/assets_path.dart';
+import 'package:oru_phones_assignment/core/config/routes.dart';
+import 'package:oru_phones_assignment/core/utils/show_toast.dart';
+import 'package:oru_phones_assignment/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:oru_phones_assignment/presentation/widgets/custom_button.dart';
+import 'package:oru_phones_assignment/presentation/widgets/custom_text_field.dart';
 
 class NameScreen extends StatefulWidget {
   const NameScreen({super.key});
@@ -14,16 +20,31 @@ class NameScreen extends StatefulWidget {
 }
 
 class _NameScreenState extends State<NameScreen> {
-  bool tremsValue = false;
+  TextEditingController nameController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(IsLoggedInEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
-    String userOtpCode;
-    String number = '+91-7587329682';
-    String sec = '0:23';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whiteColor,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.mobileHamburgerScreen,
+                (route) => false,
+              );
+            },
+            child: SvgPicture.asset(cross),
+          )
+        ],
       ),
       backgroundColor: whiteColor,
       body: Padding(
@@ -74,28 +95,42 @@ class _NameScreenState extends State<NameScreen> {
                     )
                   ],
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Name',
-                    hintStyle: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: borderColor),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: borderColor),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                )
+                customTextField(
+                  controller: nameController,
+                  hintText: 'Name',
+                ),
               ],
             ),
             SizedBox(height: height / 9),
-            customBtn(
-              context: context,
-              onTap: () {},
-              btnColor: mainColor,
-              text: 'Confirm Name',
-              icons: arrow,
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is UserUpdatedAuthSuccess) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homeScreen,
+                    (route) => false,
+                  );
+                } else if (state is AuthFailure) {
+                  showToast(state.error);
+                }
+              },
+              builder: (context, state) {
+                return customBtn(
+                  context: context,
+                  onTap: () {
+                    if (nameController.text.isNotEmpty) {
+                      context.read<AuthBloc>().add(
+                          UpdatedUserDataEvent(nameController.text.trim()));
+                    } else {
+                      showToast('Enter Name');
+                    }
+                  },
+                  isLoading: state is AuthLoading ? true : false,
+                  btnColor: mainColor,
+                  text: 'Confirm Name',
+                  icons: arrow,
+                );
+              },
             ),
           ],
         ),

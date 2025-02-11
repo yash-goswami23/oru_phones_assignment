@@ -49,5 +49,13 @@
 		<false/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+<key>NSUserNotificationUsageDescription</key>
+<string>We need notifications to keep you updated.</string>
+
 	</dict>
 </plist>

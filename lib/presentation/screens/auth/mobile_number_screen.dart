@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oru_phones_assignment/core/config/app_color.dart';
 import 'package:oru_phones_assignment/core/config/assets_path.dart';
+import 'package:oru_phones_assignment/core/config/routes.dart';
+import 'package:oru_phones_assignment/core/utils/show_toast.dart';
+import 'package:oru_phones_assignment/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:oru_phones_assignment/presentation/widgets/custom_button.dart';
+import 'package:oru_phones_assignment/presentation/widgets/custom_text_field.dart';
 import 'package:oru_phones_assignment/presentation/widgets/show_custom_bottom_sheet.dart';
 import 'package:oru_phones_assignment/presentation/widgets/terms_checkbox_widget.dart';
 
@@ -14,16 +20,27 @@ class MobileNumberScreen extends StatefulWidget {
 }
 
 class _MobileNumberScreenState extends State<MobileNumberScreen> {
+  TextEditingController numberController = TextEditingController();
+  String countryCode = '91';
+  bool checkValue = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
-    String userOtpCode;
-    String number = '+91-7587329682';
-    String sec = '0:23';
-    bool checkValue = false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whiteColor,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.mobileHamburgerScreen,
+                (route) => false,
+              );
+            },
+            child: SvgPicture.asset(cross),
+          )
+        ],
       ),
       backgroundColor: whiteColor,
       body: Padding(
@@ -66,31 +83,12 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                     ),
                   ],
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Mobile Number',
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: Text(
-                        '+91',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: textBlackColor,
-                        ),
-                      ),
-                    ),
-                    hintStyle: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: borderColor),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: borderColor),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                )
+                customTextField(
+                  hintText: 'Mobile Number',
+                  prefex: '+$countryCode',
+                  controller: numberController,
+                  keyboardType: TextInputType.number,
+                ),
               ],
             ),
             SizedBox(height: height / 9),
@@ -102,12 +100,37 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
             ),
             SizedBox(height: height / 180),
             // SizedBox(height: 100),
-            customBtn(
-              context: context,
-              btnColor: mainColor,
-              onTap: () {},
-              text: 'Next',
-              icons: arrow,
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is SendOtpAuthSuccess) {
+                  Navigator.pushNamed(context, Routes.mobileOtpScreen);
+                } else if (state is AuthFailure) {
+                  showToast(state.error);
+                }
+              },
+              builder: (context, state) {
+                return customBtn(
+                  context: context,
+                  btnColor: mainColor,
+                  isLoading: state is AuthLoading ? true : false,
+                  onTap: () {
+                    if (checkValue && numberController.text.isNotEmpty
+                        // && numberController.text.length > 9
+                        ) {
+                      context.read<AuthBloc>().add(SendOtpEvent(
+                          countryCode, numberController.text.trim()));
+                    } else {
+                      if (!checkValue) {
+                        showToast('Check the Box');
+                      } else {
+                        showToast('Enter the Mobile Number');
+                      }
+                    }
+                  },
+                  text: 'Next',
+                  icons: arrow,
+                );
+              },
             ),
           ],
         ),

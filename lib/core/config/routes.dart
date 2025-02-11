@@ -1,39 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:oru_phones_assignment/presentation/screens/auth/mobile_number_screen.dart';
+import 'package:oru_phones_assignment/presentation/screens/auth/mobile_otp_screen.dart';
 import 'package:oru_phones_assignment/presentation/screens/auth/name_screen.dart';
 import 'package:oru_phones_assignment/presentation/screens/auth/splash_screen.dart';
+import 'package:oru_phones_assignment/presentation/screens/mobile/home/home_screen.dart';
 import 'package:oru_phones_assignment/presentation/screens/mobile/mobile_hamburger/mobile_hamburger.dart';
 
-const String splashScreen = '/';
-const String mobileOtpScreen = '/MobileOtpScreen';
-const String nameScreen = '/NameScreen';
-const String mobileNumberScreen = '/MobileNumberScreen';
-const String mobileHamburgerScreen = '/mobileHamburgerScreen';
-
 class Routes {
-  static Route? onGenerateRoute(RouteSettings settings) {
+  static const String splashScreen = '/splash';
+  static const String mobileNumberScreen = '/mobileNumber';
+  static const String nameScreen = '/name';
+  static const String mobileOtpScreen = '/mobileOtp';
+  static const String mobileHamburgerScreen = '/mobileHamburger';
+  static const String homeScreen = '/homeScreen';
+
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splashScreen:
-        return MaterialPageRoute(
-          builder: (context) => const SplashScreen(),
-        );
+        return _fadeRoute(const SplashScreen(), settings);
       case mobileNumberScreen:
-        return MaterialPageRoute(
-          builder: (context) => const MobileNumberScreen(),
-        );
+        return _fadeRoute(const MobileNumberScreen(), settings);
       case nameScreen:
-        return MaterialPageRoute(
-          builder: (context) => const NameScreen(),
-        );
+        return _fadeRoute(const NameScreen(), settings);
       case mobileOtpScreen:
-        return MaterialPageRoute(
-          builder: (context) => const MobileNumberScreen(),
-        );
+        return _fadeRoute(const MobileOtpScreen(), settings);
       case mobileHamburgerScreen:
-        return MaterialPageRoute(
-          builder: (context) => const MobileHamburger(),
-        );
+        return _fadeRoute(const MobileHamburger(), settings);
+      case homeScreen:
+        return _fadeRoute(const HomeScreen(), settings);
+      default:
+        return _fadeRoute(const SplashScreen(), settings); // Default screen
     }
-    return null;
+  }
+
+  static PageRouteBuilder _fadeRoute(Widget page, RouteSettings settings) {
+    return PageRouteBuilder(
+      settings: settings,
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    );
   }
 }
