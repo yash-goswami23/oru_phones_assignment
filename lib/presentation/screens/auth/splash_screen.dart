@@ -25,7 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(IsLoggedInEvent()); // Fetch auth state once
+    Timer(
+      Duration(seconds: 3),
+      () {
+        context.read<AuthBloc>().add(IsLoggedInEvent());
+      },
+    );
   }
 
   void _navigateToNextScreen(BuildContext context, AuthState state) async {
@@ -44,8 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       }
     } else if (state is AuthFailure) {
-      print('Auth error: ${state.error}');
-      showToast(state.error);
+      // print('Auth error: ${state.error}');
+      // showToast(state.error);
       Navigator.pushNamedAndRemoveUntil(
         context,
         Routes.mobileNumberScreen,

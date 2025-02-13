@@ -56,6 +56,10 @@
 </dict>
 <key>NSUserNotificationUsageDescription</key>
 <string>We need notifications to keep you updated.</string>
+<key>NSSpeechRecognitionUsageDescription</key>
+<string>We need speech recognition to search phones</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>We need microphone access to record your voice</string>
 
 	</dict>
 </plist>

@@ -7,6 +7,8 @@ Widget customBtn(
     {required context,
     required VoidCallback onTap,
     required String text,
+    double fontSize = 18,
+    FontWeight fontWeight = FontWeight.w600,
     bool isLoading = false,
     String? icons,
     double borderRadius = 4,
@@ -19,7 +21,8 @@ Widget customBtn(
     onTap: onTap,
     child: Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.symmetric(
+          horizontal: 12, vertical: fontSize == 12 ? 0 : 14),
       decoration: BoxDecoration(
         color: btnColor,
         boxShadow: btnShadowColor != null
@@ -48,14 +51,15 @@ Widget customBtn(
                 Text(
                   text,
                   style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
+                    fontWeight: fontWeight,
+                    fontSize: fontSize,
                     color: textColor,
                   ),
                 ),
-                SizedBox(
-                  width: width / 60,
-                ),
+                if (icons != null)
+                  SizedBox(
+                    width: width / 60,
+                  ),
                 if (icons != null)
                   SvgPicture.asset(
                     icons,

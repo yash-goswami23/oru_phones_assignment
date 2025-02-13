@@ -7,34 +7,46 @@ class AuthRepository {
 
   AuthRepository(this._apiClient);
 
-  // Future<Response> checkLoggedIn() async {
-  //   return await _apiClient.get(APIEndpoints.isLoggedIn);
-  // }
   Future<Response> checkLoggedIn(String session) async {
     return await _apiClient
         .get(APIEndpoints.isLoggedIn, headers: {"Cookie": session});
   }
 
   Future<Response> sendOtp(String countryCode, String mobileNumber) async {
-    return await _apiClient.post(APIEndpoints.otpCreate, {
-      "countryCode": int.parse(countryCode),
-      "mobileNumber": int.parse(mobileNumber)
-    });
+    try {
+      return await _apiClient.post(APIEndpoints.otpCreate, {
+        "countryCode": int.parse(countryCode),
+        "mobileNumber": int.parse(mobileNumber)
+      });
+    } catch (e) {
+      return Response(
+          {"success": 'FAILURE', "msg": "Invalid mobile number format."}
+              .toString(),
+          500);
+    }
   }
 
   Future<Response> validateOtp(
       String countryCode, String mobileNumber, String otp) async {
-    return await _apiClient.post(APIEndpoints.otpValidate, {
-      "countryCode": int.parse(countryCode),
-      "mobileNumber": int.parse(mobileNumber),
-      "otp": int.parse(otp)
-    });
+    try {
+      return await _apiClient.post(APIEndpoints.otpValidate, {
+        "countryCode": int.parse(countryCode),
+        "mobileNumber": int.parse(mobileNumber),
+        "otp": int.parse(otp)
+      });
+    } catch (e) {
+      return Response(
+          {"success": 'FAILURE', "msg": "Invalid OTP format."}.toString(), 500);
+    }
   }
 
-  Future<Response> updateUserData(String name, String token, session) async {
+  Future<Response> updateUserData(
+      String name, String token, String session) async {
     return await _apiClient.post(
-        APIEndpoints.updateUser, {"countryCode": 91, "userName": name},
-        headers: {'X-Csrf-Token': token, "Cookie": session});
+      APIEndpoints.updateUser,
+      {"countryCode": 91, "userName": name},
+      headers: {'X-Csrf-Token': token, "Cookie": session},
+    );
   }
 
   Future<Response> logout(String token, String session) async {

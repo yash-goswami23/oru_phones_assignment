@@ -47,92 +47,96 @@ class _NameScreenState extends State<NameScreen> {
         ],
       ),
       backgroundColor: whiteColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment,
-          children: [
-            SizedBox(height: height / 20),
-            // SizedBox(height: 48),
-            Image.asset(logo),
-            SizedBox(height: height / 15),
-            // SizedBox(height: 60),
-            Text(
-              'Welcome',
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w600, fontSize: 28, color: mainColor),
-            ),
-            SizedBox(height: height / 140),
-            // SizedBox(height: 10),
-            Text(
-              'SignUp to continue',
-              style: GoogleFonts.montserrat(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: textGreyColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment,
+            children: [
+              SizedBox(height: height / 20),
+              // SizedBox(height: 48),
+              Image.asset(logo),
+              SizedBox(height: height / 15),
+              // SizedBox(height: 60),
+              Text(
+                'Welcome',
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 28,
+                    color: mainColor),
               ),
-            ),
-            SizedBox(height: height / 9),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Please Tell Us Your Name',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: blackColor,
-                      ),
-                    ),
-                    Text(
-                      ' *',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.red,
-                      ),
-                    )
-                  ],
+              SizedBox(height: height / 140),
+              // SizedBox(height: 10),
+              Text(
+                'SignUp to continue',
+                style: GoogleFonts.montserrat(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: textGreyColor,
                 ),
-                customTextField(
-                  controller: nameController,
-                  hintText: 'Name',
-                ),
-              ],
-            ),
-            SizedBox(height: height / 9),
-            BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is UserUpdatedAuthSuccess) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Routes.homeScreen,
-                    (route) => false,
+              ),
+              SizedBox(height: height / 9),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Please Tell Us Your Name',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: blackColor,
+                        ),
+                      ),
+                      Text(
+                        ' *',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
+                  customTextField(
+                    controller: nameController,
+                    hintText: 'Name',
+                  ),
+                ],
+              ),
+              SizedBox(height: height / 9),
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is UserUpdatedAuthSuccess) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Routes.homeScreen,
+                      (route) => false,
+                    );
+                  } else if (state is AuthFailure) {
+                    showToast(state.error);
+                  }
+                },
+                builder: (context, state) {
+                  return customBtn(
+                    context: context,
+                    onTap: () {
+                      if (nameController.text.isNotEmpty) {
+                        context.read<AuthBloc>().add(
+                            UpdatedUserDataEvent(nameController.text.trim()));
+                      } else {
+                        showToast('Enter Name');
+                      }
+                    },
+                    isLoading: state is AuthLoading ? true : false,
+                    btnColor: mainColor,
+                    text: 'Confirm Name',
+                    icons: arrow,
                   );
-                } else if (state is AuthFailure) {
-                  showToast(state.error);
-                }
-              },
-              builder: (context, state) {
-                return customBtn(
-                  context: context,
-                  onTap: () {
-                    if (nameController.text.isNotEmpty) {
-                      context.read<AuthBloc>().add(
-                          UpdatedUserDataEvent(nameController.text.trim()));
-                    } else {
-                      showToast('Enter Name');
-                    }
-                  },
-                  isLoading: state is AuthLoading ? true : false,
-                  btnColor: mainColor,
-                  text: 'Confirm Name',
-                  icons: arrow,
-                );
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -27,7 +27,7 @@ class Routes {
       case mobileHamburgerScreen:
         return _fadeRoute(const MobileHamburger(), settings);
       case homeScreen:
-        return _fadeRoute(const HomeScreen(), settings);
+        return _fadeRoute(HomeScreen(), settings);
       default:
         return _fadeRoute(const SplashScreen(), settings); // Default screen
     }

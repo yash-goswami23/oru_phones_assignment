@@ -7,4 +7,7 @@ class APIEndpoints {
   static const String otpValidate = "/login/otpValidate";
   static const String updateUser = "/update";
   static const String logout = '/logout';
+  static const String brandsImgs = '/makeWithImages';
+  static const String products = '/filter';
+  static const String faq = '/faq';
 }

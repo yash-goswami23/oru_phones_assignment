@@ -1,4 +1,4 @@
-import 'package:oru_phones_assignment/data/models/user_model.dart';
+import 'package:oru_phones_assignment/data/models/auth_models/user_model.dart';
 
 class UserLoggedIn {
   final bool isLoggedIn;

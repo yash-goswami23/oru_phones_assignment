@@ -7,7 +7,7 @@ import 'package:oru_phones_assignment/core/config/app_color.dart';
 import 'package:oru_phones_assignment/core/config/assets_path.dart';
 import 'package:oru_phones_assignment/core/config/routes.dart';
 import 'package:oru_phones_assignment/core/utils/show_toast.dart';
-import 'package:oru_phones_assignment/data/models/user_logged_in_model.dart';
+import 'package:oru_phones_assignment/data/models/auth_models/user_logged_in_model.dart';
 import 'package:oru_phones_assignment/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:oru_phones_assignment/presentation/widgets/custom_button.dart';
 import 'package:oru_phones_assignment/presentation/widgets/show_custom_bottom_sheet.dart';
@@ -60,8 +60,8 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                 onTap: () {
                   final number = state.otpResponse.dataObject!.mobileNumber
                       .replaceAll('91', '');
-                  print('value userOTP : $userOTP, number : $number, num $num');
-                  // print('value number : $number, num $num');
+                  // print('value userOTP : $userOTP, number : $number, num $num');
+                  // // print('value number : $number, num $num');
                   context
                       .read<AuthBloc>()
                       .add(OtpValidateEvent('91', number, userOTP));
@@ -81,20 +81,20 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                 btnText: 'Verify OTP',
               );
             } else if (state is AuthFailure) {
-              showToast(state.error);
+              // showToast(state.error);
             } else if (state is OtpValidateAuthSuccess) {
-              context.read<AuthBloc>()..add(IsLoggedInEvent());
+              context.read<AuthBloc>().add(IsLoggedInEvent());
               showCustomBottomSheet(
                   context: context,
                   height: height,
-                  inputTitle: 'Enter Your Mobile Number',
+                  inputTitle: 'Enter Your Name',
                   title: 'Sign in to continue',
                   btnText: 'Confirm Name',
                   inputHint: 'Name',
                   controller: nameController,
                   isLoading: state is AuthLoading ? true : false,
                   onTap: () {
-                    print('value name is ${nameController.text}');
+                    // print('value name is ${nameController.text}');
                     context
                         .read<AuthBloc>()
                         .add(UpdatedUserDataEvent(nameController.text.trim()));
@@ -127,7 +127,13 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                         children: [
                           SvgPicture.asset(logoSvg, height: 40, width: 40),
                           GestureDetector(
-                            // onTap: () =>  Navigator.pop(context),
+                            onTap: () {
+                              final cP = Navigator.canPop(context);
+                              if (cP) {
+                                Navigator.pop(context);
+                              }
+                              showToast('$cP');
+                            },
                             child: SvgPicture.asset(cross,
                                 color: blackColor, height: 24, width: 24),
                           ),
@@ -136,9 +142,17 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                       SizedBox(height: 16),
                       if (isLoggedin)
                         ListTile(
-                          leading: CircleAvatar(radius: 22),
+                          leading: CircleAvatar(
+                            radius: 30,
+                            child: ClipOval(
+                              child: Image.network(
+                                  'https://www.headshotpro.com/avatar-results/random-1.webp'),
+                            ),
+                          ),
                           title: Text(
-                            userLoggedIn!.user!.userName,
+                            userLoggedIn!.user!.userName.isEmpty
+                                ? 'John Doe'
+                                : userLoggedIn!.user!.userName,
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -149,7 +163,7 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                             'Joined: ${userLoggedIn!.user!.createdDate}',
                             style: GoogleFonts.poppins(
                               fontSize: 12,
-                              color: textGreyColor,
+                              color: blackColor,
                             ),
                           ),
                           contentPadding: EdgeInsets.zero,

@@ -18,7 +18,7 @@ class SharedPrefs {
   }
 
   //read
-  Future<String?> fatch(String path) async {
+  Future<String?> fetch(String path) async {
     SharedPreferences prefs = await instance.prefs;
     String? data = prefs.getString(path);
     return data;
