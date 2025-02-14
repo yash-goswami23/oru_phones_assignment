@@ -65,14 +65,17 @@ profile screen
 Login/SignUp Screen 
 ##  Challenges Faced & Solutions
 
-✅ Challenge: Firebase messaging error (FIS_AUTH_ERROR)
-💡 Solution:
+✅ Challenge:   
 
-Cleared Firebase Installations
-Enabled Firebase Installations API in Google Cloud Console
-Implemented delayed token fetching
-✅ Challenge: Handling Navigation in BLoC
-💡 Solution: Used BlocConsumer to manage navigation logic
+Firebase messaging error (FIS_AUTH_ERROR)  
+💡 Solution:
+Cleared Firebase Installations 
+Enabled Firebase Installations API in Google Cloud Console 
+Implemented delayed token fetching  
+
+✅ Challenge: Handling Navigation in BLoC  
+💡 Solution: Used BlocConsumer to manage navigation logic  
+
 ## How to Run the Project? (Setup Instructions)
 🛠 Pre-requisites:  
 Install Flutter SDK (Latest Version)  
