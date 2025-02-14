@@ -2,7 +2,6 @@
 ## 📌 Project Overview
 This project is a Flutter-based mobile application that includes authentication, home screen, and notifications functionalities. It follows a clean architecture and utilizes BLoC (Business Logic Component) for state management.
 
-
 ## 🚀 State Management
 The project uses BLoC (Business Logic Component) for efficient state management. It ensures:
 
@@ -34,13 +33,64 @@ lib/
 
 
 ## 📢 Features
-✅ Mobile Phone Authentication (with backend APis).  
-✅ Local Notifications (Firebase Cloud Messaging).  
-✅ State Management using BLoC.  
-✅ Clean Architecture & Modular Code.  
-✅ Custom UI Components and Screens.  
-✅ Authentication Screens and Bottom Sheets.
+✔ User Authentication Flow:
 
+Mobile Number Screen  
+OTP Verification Screen  
+User Name Input Screen  
+
+✔ State Management:  
+Used BLoC for state management to handle UI updates efficiently  
+
+✔ API Integration:  
+Firebase Authentication  
+Fetching user data  
+
+✔ Navigation & Routing:  
+Implemented Navigator 2.0 (if used)  
+Managed routes using BLoC Events  
+
+✔ UI/UX Considerations:  
+
+Adaptive UI (Responsive on all devices)  
+Clean & Minimal UI following Material Design Guidelines
+
+✔ Notification Service:
+Firebase Cloud Messaging (FCM) integrated  
+Foreground Notifications handled using flutter_local_notifications  
+Push Notification Click Handling  
+
+✔ Hamburger Menu:  
+profile screen   
+Login/SignUp Screen 
+##  Challenges Faced & Solutions
+
+✅ Challenge: Firebase messaging error (FIS_AUTH_ERROR)
+💡 Solution:
+
+Cleared Firebase Installations
+Enabled Firebase Installations API in Google Cloud Console
+Implemented delayed token fetching
+✅ Challenge: Handling Navigation in BLoC
+💡 Solution: Used BlocConsumer to manage navigation logic
+## How to Run the Project? (Setup Instructions)
+🛠 Pre-requisites:  
+Install Flutter SDK (Latest Version)  
+Install Android Studio or VS Code  
+Setup Firebase  
+📌 Steps to Run the App:  
+1️⃣ Clone the repository:  
+git clone <https://github.com/yash-goswami23/oru_phones_assignment/>  
+cd project-folder  
+2️⃣ Install dependencies:  
+flutter pub get  
+3️⃣ Run the app:  
+flutter run  
+🚀 If you face issues with Firebase:
+Ensure google-services.json is placed inside android/app/
+Run flutter clean && flutter pub get
+## Download Apk
+https://docs.google.com/uc?export=download&id=1Bq574nsrWmM11HwzNPQqsGD8UiwtaJVA
 ## Screens Shorts
 ### Authenitication Screens
 #### Mobile Number Screens
@@ -66,5 +116,3 @@ lib/
 
 #### Video
 https://github.com/user-attachments/assets/9ff43b82-9f15-44f3-b79b-2c94cf6ac106
-## Download Apk
-https://docs.google.com/uc?export=download&id=1Bq574nsrWmM11HwzNPQqsGD8UiwtaJVA
