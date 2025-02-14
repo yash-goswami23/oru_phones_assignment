@@ -68,7 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         sendOtpResponse = OtpResponse.fromJson(value);
         emit(SendOtpAuthSuccess(sendOtpResponse!));
       } else {
-        emit(AuthFailure(value['error'][0]['code'] ?? "OTP sending failed"));
+        emit(AuthFailure(value[0] ?? "OTP sending failed"));
       }
     } catch (e) {
       emit(AuthFailure("OTP sending failed: ${e.toString()}"));
@@ -146,7 +146,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _sharedPrefs.delete('session');
         emit(LogoutAuthSuccess());
       } else {
-        emit(AuthFailure(value['error'] ?? "Logout failed"));
+        emit(AuthFailure(value['massage'] ?? "Logout failed"));
       }
     } catch (e) {
       emit(AuthFailure("User logout failed: ${e.toString()}"));

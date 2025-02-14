@@ -147,7 +147,7 @@ Future<dynamic> showCustomBottomSheet({
                                     ),
                                   ),
                                   Text(
-                                    ' number',
+                                    ' $number',
                                     style: GoogleFonts.montserrat(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,

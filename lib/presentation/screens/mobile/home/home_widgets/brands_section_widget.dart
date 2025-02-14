@@ -50,10 +50,14 @@ Widget buildTopBrandsSection({required bool isGuest, List<Brand>? brands}) {
                 scrollDirection: Axis.horizontal,
                 itemCount: 7,
                 itemBuilder: (context, index) {
-                  if (index == 6) {
-                    return brandItemCard(showVeiwAll: true);
+                  if (brands != null) {
+                    if (index == 6) {
+                      return brandItemCard(showVeiwAll: true);
+                    } else {
+                      return brandItemCard(brandImg: brands![index].imagePath);
+                    }
                   } else {
-                    return brandItemCard(brandImg: brands![index].imagePath);
+                    return Container();
                   }
                 },
               ),

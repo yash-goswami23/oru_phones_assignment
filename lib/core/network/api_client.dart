@@ -88,9 +88,5 @@ class ApiClient {
   http.Response _customErrorResponse(String message) {
     String body = {"status": 'FAILURE', "msg": message}.toString();
     return http.Response(body, 500);
-    // http.Response({
-    //   "status": 'FAILURE',
-    //   "msg": message,
-    // }, 500);
   }
 }

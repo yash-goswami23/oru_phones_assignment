@@ -42,93 +42,98 @@ class Data {
 
 class Product {
   final String id;
-  final String deviceCondition;
-  final String listedBy;
-  final String deviceStorage;
+  final String? deviceCondition;
+  final String? listedBy;
+  final String? deviceStorage;
   final List<pic> images;
-  final DefaultImage defaultImage;
-  final String listingState;
-  final String listingLocation;
-  final String listingLocality;
-  final String listingPrice;
-  final String make;
-  final String marketingName;
-  final bool openForNegotiation;
+  final DefaultImage? defaultImage;
+  final String? listingState;
+  final String? listingLocation;
+  final String? listingLocality;
+  final String? listingPrice;
+  final String? make;
+  final String? marketingName;
+  final bool? openForNegotiation;
   final double? discountPercentage;
-  final bool verified;
-  final String listingId;
-  final String status;
-  final String verifiedDate;
-  final String listingDate;
-  final String deviceRam;
-  final String warranty;
-  final String imagePath;
-  final String createdAt;
-  final String updatedAt;
-  final Location location;
+  final bool? verified;
+  final String? listingId;
+  final String? status;
+  final String? verifiedDate;
+  final String? listingDate;
+  final String? deviceRam;
+  final String? warranty;
+  final String? imagePath;
+  final String? createdAt;
+  final String? updatedAt;
+  final Location? location;
   final int? originalPrice;
   final int? discountedPrice;
 
   Product({
     required this.id,
-    required this.deviceCondition,
-    required this.listedBy,
-    required this.deviceStorage,
+    this.deviceCondition,
+    this.listedBy,
+    this.deviceStorage,
     required this.images,
-    required this.defaultImage,
-    required this.listingState,
-    required this.listingLocation,
-    required this.listingLocality,
-    required this.listingPrice,
-    required this.make,
-    required this.marketingName,
-    required this.openForNegotiation,
+    this.defaultImage,
+    this.listingState,
+    this.listingLocation,
+    this.listingLocality,
+    this.listingPrice,
+    this.make,
+    this.marketingName,
+    this.openForNegotiation,
     this.discountPercentage,
-    required this.verified,
-    required this.listingId,
-    required this.status,
-    required this.verifiedDate,
-    required this.listingDate,
-    required this.deviceRam,
-    required this.warranty,
-    required this.imagePath,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.location,
+    this.verified,
+    this.listingId,
+    this.status,
+    this.verifiedDate,
+    this.listingDate,
+    this.deviceRam,
+    this.warranty,
+    this.imagePath,
+    this.createdAt,
+    this.updatedAt,
+    this.location,
     this.originalPrice,
     this.discountedPrice,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['_id'],
-      deviceCondition: json['deviceCondition'],
-      listedBy: json['listedBy'],
-      deviceStorage: json['deviceStorage'],
-      images:
-          (json['images'] as List).map((image) => pic.fromJson(image)).toList(),
-      defaultImage: DefaultImage.fromJson(json['defaultImage']),
-      listingState: json['listingState'],
-      listingLocation: json['listingLocation'],
-      listingLocality: json['listingLocality'],
-      listingPrice: json['listingPrice'],
-      make: json['make'],
-      marketingName: json['marketingName'],
-      openForNegotiation: json['openForNegotiation'],
-      discountPercentage: json['discountPercentage']?.toDouble(),
-      verified: json['verified'],
-      listingId: json['listingId'],
-      status: json['status'],
-      verifiedDate: json['verifiedDate'],
-      listingDate: json['listingDate'],
-      deviceRam: json['deviceRam'],
-      warranty: json['warranty'],
-      imagePath: json['imagePath'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      location: Location.fromJson(json['location']),
-      originalPrice: json['originalPrice'],
-      discountedPrice: json['discountedPrice'],
+      id: json['_id'] ?? '', // Default to empty string if null
+      deviceCondition: json['deviceCondition'] as String?,
+      listedBy: json['listedBy'] as String?,
+      deviceStorage: json['deviceStorage'] as String?,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((image) => pic.fromJson(image))
+              .toList() ??
+          [], // Default to empty list
+      defaultImage: json['defaultImage'] != null
+          ? DefaultImage.fromJson(json['defaultImage'])
+          : null,
+      listingState: json['listingState'] as String?,
+      listingLocation: json['listingLocation'] as String?,
+      listingLocality: json['listingLocality'] as String?,
+      listingPrice: json['listingPrice'] as String?,
+      make: json['make'] as String?,
+      marketingName: json['marketingName'] as String?,
+      openForNegotiation: json['openForNegotiation'] as bool?,
+      discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
+      verified: json['verified'] as bool?,
+      listingId: json['listingId'] as String?,
+      status: json['status'] as String?,
+      verifiedDate: json['verifiedDate'] as String?,
+      listingDate: json['listingDate'] as String?,
+      deviceRam: json['deviceRam'] as String?,
+      warranty: json['warranty'] as String?,
+      imagePath: json['imagePath'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      location:
+          json['location'] != null ? Location.fromJson(json['location']) : null,
+      originalPrice: json['originalPrice'] as int?,
+      discountedPrice: json['discountedPrice'] as int?,
     );
   }
 
@@ -139,7 +144,7 @@ class Product {
       'listedBy': listedBy,
       'deviceStorage': deviceStorage,
       'images': images.map((image) => image.toJson()).toList(),
-      'defaultImage': defaultImage.toJson(),
+      'defaultImage': defaultImage?.toJson(),
       'listingState': listingState,
       'listingLocation': listingLocation,
       'listingLocality': listingLocality,
@@ -158,7 +163,7 @@ class Product {
       'imagePath': imagePath,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
-      'location': location.toJson(),
+      'location': location?.toJson(),
       'originalPrice': originalPrice,
       'discountedPrice': discountedPrice,
     };

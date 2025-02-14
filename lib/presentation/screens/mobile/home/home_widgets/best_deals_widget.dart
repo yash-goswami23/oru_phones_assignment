@@ -95,16 +95,16 @@ Widget buildBestDealsSection(bool isGuest, List<Product>? products) {
                     final ValueNotifier<bool> isFav =
                         ValueNotifier<bool>(false);
                     return ProductCard(
-                      imageUrl: product.defaultImage.fullImage,
+                      imageUrl: product.defaultImage!.fullImage,
                       title: product.marketingName.toString(),
-                      storage: product.deviceStorage,
-                      condition: product.deviceCondition,
-                      price: double.parse(product.listingPrice),
+                      storage: product.deviceStorage!,
+                      condition: product.deviceCondition!,
+                      price: double.parse(product.listingPrice!),
                       oldPrice: product.originalPrice,
                       discount: product.discountPercentage,
-                      location: product.listingLocation,
-                      date: product.listingDate,
-                      isVerified: product.verified,
+                      location: product.listingLocation!,
+                      date: product.listingDate!,
+                      isVerified: product.verified!,
                       onFavTap: () {
                         isFav.value = !isFav.value;
                       },

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852359858131",
+    "project_id": "assignment-6a83a",
+    "storage_bucket": "assignment-6a83a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852359858131:android:6e4493cde18d830b329126",
+        "android_client_info": {
+          "package_name": "com.example.oru_phones_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSb8xqzqaPV_szoHUISfiKSCERG61xUZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

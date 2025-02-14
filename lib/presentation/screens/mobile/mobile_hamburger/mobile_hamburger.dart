@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +30,10 @@ class _MobileHamburgerState extends State<MobileHamburger> {
     {'icon': privacyPolicy, 'title': 'Privacy Policy'},
     {'icon': faq, 'title': 'FAQs'},
   ];
+  String sec = '0:23';
+  final ValueNotifier<int> _seconds = ValueNotifier<int>(30);
+  final ValueNotifier<bool> _isResendEnabled = ValueNotifier<bool>(false);
+  Timer? _timer;
   bool isLoggedin = false;
   UserLoggedIn? userLoggedIn;
   bool checkValue = false;
@@ -38,11 +44,27 @@ class _MobileHamburgerState extends State<MobileHamburger> {
   void initState() {
     super.initState();
     final state = context.read<AuthBloc>().state;
+    _startTimer();
     context.read<AuthBloc>().add(IsLoggedInEvent());
     if (state is IsLoggedInAuthSuccess) {
       userLoggedIn = state.userLoggedIn;
       isLoggedin = state.userLoggedIn.isLoggedIn;
     }
+  }
+
+  void _startTimer() {
+    _seconds.value = 30;
+    _isResendEnabled.value = false;
+
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_seconds.value > 0) {
+        _seconds.value--;
+      } else {
+        _isResendEnabled.value = true;
+        timer.cancel();
+      }
+    });
   }
 
   @override
@@ -54,12 +76,14 @@ class _MobileHamburgerState extends State<MobileHamburger> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is SendOtpAuthSuccess) {
+              final number = state.otpResponse.dataObject!.mobileNumber
+                  .replaceAll('91', '');
               showCustomBottomSheet(
                 context: context,
                 height: height,
+                number: number,
+                sec: _seconds.value.toString(),
                 onTap: () {
-                  final number = state.otpResponse.dataObject!.mobileNumber
-                      .replaceAll('91', '');
                   // print('value userOTP : $userOTP, number : $number, num $num');
                   // // print('value number : $number, num $num');
                   context
@@ -81,7 +105,7 @@ class _MobileHamburgerState extends State<MobileHamburger> {
                 btnText: 'Verify OTP',
               );
             } else if (state is AuthFailure) {
-              // showToast(state.error);
+              showToast(state.error);
             } else if (state is OtpValidateAuthSuccess) {
               context.read<AuthBloc>().add(IsLoggedInEvent());
               showCustomBottomSheet(

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String text = "";
   final PageController _pageController = PageController();
   final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
+  late ScrollController _scrollController;
+  final ValueNotifier<bool> _isFabVisible = ValueNotifier(true);
 
   List<Brand>? brands;
   List<Product>? products;
@@ -92,6 +95,24 @@ class _HomeScreenState extends State<HomeScreen> {
     if (state is IsLoggedInAuthSuccess) {
       isGuest = false;
     }
+    _scrollController = ScrollController();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        _isFabVisible.value = false;
+      } else if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        _isFabVisible.value = true;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+    _isFabVisible.dispose();
   }
 
   @override
@@ -102,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: whiteColor,
       appBar: buildAppBar(context: context, isGuest: isGuest),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             Padding(
@@ -140,7 +162,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: sellFloatingBtn(),
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: _isFabVisible,
+        builder: (context, isVisible, child) {
+          return AnimatedOpacity(
+              duration: Duration(milliseconds: 300),
+              opacity: isVisible ? 1.0 : 0.0,
+              child: sellFloatingBtn());
+        },
+      ),
     );
   }
 
